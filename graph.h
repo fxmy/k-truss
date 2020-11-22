@@ -8,7 +8,6 @@ struct Adj_list_1 {
 
 // array下标 -> 边id、边的删除标志的映射
 struct AdjPos_to_edgeId_2 {
-  // std::vector<uint64_t> edgeId_pos; //用不上了？
   std::vector<uint64_t> edgeId; //仅存储“正向边”
   std::vector<bool> edge_present;
 };
@@ -37,7 +36,6 @@ struct EdgeId_to_nodeId_4 {
 struct Graph {
   uint32_t node_num = 0;
   uint64_t edge_num = 0; //仅统计正向边
-  // uint32_t curr_node = 0;
 
   struct Adj_list_1 adj_list_1;
   struct AdjPos_to_edgeId_2 adjPos_to_edgeId_2;

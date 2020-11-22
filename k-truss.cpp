@@ -1,6 +1,5 @@
 #include "graph.h"
 #include <algorithm>
-#include <bits/stdint-uintn.h>
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -21,11 +20,6 @@ int main(int argc, char *argv[]) {
     std::cout << argc << std::endl;
     return -1;
   }
-  // if (strcmp("-f", argv[1])) {
-  //  print_usage(argv[0]);
-  //  std::cout << "!!!" << std::endl;
-  //  return -2;
-  //}
 
   std::ifstream inFile(argv[2]);
   string str;

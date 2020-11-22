@@ -12,12 +12,8 @@ void build_graph(Graph &g, uint32_t u, uint32_t v) {
   build_edgeId_to_nodeId_4(g.edgeId_to_nodeId_4, u, v,
                            g.adj_list_1.array.size(), g.edge_num);
 
-  // if (u > v) {
-  //  //仅统计正向边
-  //  g.edge_num++;
-  //}
-  // uint32_t a_ = std::max(g.node_num, u);
-  // g.node_num = std::max(g.node_num, v);
+  //TODO: build_node_degree()
+  //TODO: build_node_degree()
 }
 
 void build_adj_list_1(Adj_list_1 &adj, uint32_t u, uint32_t v) {
@@ -37,7 +33,7 @@ void build_adjPos_to_edgeId_2(Graph &g, uint32_t u, uint32_t v) {
     uint32_t array_i =
         g.nodeId_to_adjPos_3
             .firstBiggerPos[u - 1]; // zero indexed
-                                    // !!!!!!!!!!!!!u存在hole的情况。。。
+
     while (g.adj_list_1.array[array_i] != v) {
       array_i++;
     }
