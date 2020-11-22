@@ -1,5 +1,6 @@
 #include "graph.h"
 #include <algorithm>
+#include <bits/stdint-uintn.h>
 #include <iostream>
 #include <vector>
 
@@ -11,6 +12,18 @@ void build_graph(Graph &g, uint32_t u, uint32_t v) {
                            g.adj_list_1.array.size(), g.node_num);
   build_edgeId_to_nodeId_4(g.edgeId_to_nodeId_4, u, v,
                            g.adj_list_1.array.size(), g.edge_num);
+
+  g.node_num_max = std::max(g.node_num_max, v);
+  }
+
+void post_build_graph(Graph &g) {
+  //一次性初始化:
+  // |_2.edge_present| == edge_num
+  //|_3.node_degree| == max(node_number) 可能出现node编号不连续的强况
+  //|_4.edge_support| == edge_num
+  g.adjPos_to_edgeId_2.edge_present = std::vector<bool>(g.edge_num, true);
+  g.nodeId_to_adjPos_3.node_degree = std::vector<uint32_t>(g.node_num_max, 0);
+  g.edgeId_to_nodeId_4.support = std::vector<uint32_t>(g.edge_num, 0);
 
   //TODO: build_node_degree()
   //TODO: build_node_degree()
@@ -24,7 +37,7 @@ void build_adjPos_to_edgeId_2(Graph &g, uint32_t u, uint32_t v) {
   if (u > v) {
     //仅保留u列比v列大的情况（如果是“正向边”，则直接压入edgeId）
     // edge_num 即为当前的edgeId
-    g.adjPos_to_edgeId_2.edge_present.push_back(true);
+    //~~g.adjPos_to_edgeId_2.edge_present.push_back(true);
     g.adjPos_to_edgeId_2.edgeId.push_back(g.edge_num);
     // g.edge_num++;
   } else {
@@ -63,7 +76,7 @@ void build_nodeId_to_adjPos_3(NodeId_to_adjPos_3 &n_3, uint32_t u, uint32_t v,
         n_3.firstPos.push_back(-1);
         n_3.firstBiggerPos.push_back(-1);
         n_3.lastPos.push_back(-1);
-        n_3.node_degree.push_back(0);
+        //~~n_3.node_degree.push_back(0);
       } else {
         // 2.正在处理gap之后的实际存在的nodeId，如下处理
         //  1)压入firstPos
@@ -77,7 +90,7 @@ void build_nodeId_to_adjPos_3(NodeId_to_adjPos_3 &n_3, uint32_t u, uint32_t v,
         //  3)压入lastPos
         n_3.lastPos.push_back(adj_size); // 应该是adj_size
         //  4)TODO 压入node_degree（压入0，之后再统一计算更新）
-        n_3.node_degree.push_back(0);
+        //~~n_3.node_degree.push_back(0);
       }
     }
 
@@ -103,7 +116,7 @@ void build_edgeId_to_nodeId_4(EdgeId_to_nodeId_4 &e_4, uint32_t u, uint32_t v,
     e_4.n_bigger.push_back(u);
     e_4.n_little.push_back(v);
     // 2.TODO 压入support，之后再统一计算更新
-    e_4.support.push_back(0);
+    //~e_4.support.push_back(0);
 
     ++edge_num;
   }
@@ -118,39 +131,40 @@ void print_graph(Graph &g) {
   using std::cout;
   using std::endl;
   cout << "node_num: " << g.node_num << endl;
+  cout << "node_num_max: " << g.node_num_max << endl;
   cout << "edge_num: " << g.edge_num << endl << endl;
 
-  cout << "_1.array:" << endl;
-  print_vector(g.adj_list_1.array);
-  cout << endl << endl;
+  //cout << "_1.array:" << endl;
+  //print_vector(g.adj_list_1.array);
+  //cout << endl << endl;
 
-  cout << "_2.edgeId:" << endl;
-  print_vector(g.adjPos_to_edgeId_2.edgeId);
-  cout << endl;
-  cout << "_2.edge_present:" << endl;
-  print_vector(g.adjPos_to_edgeId_2.edge_present);
-  cout << endl << endl;
+  //cout << "_2.edgeId:" << endl;
+  //print_vector(g.adjPos_to_edgeId_2.edgeId);
+  //cout << endl;
+  //cout << "_2.edge_present:" << endl;
+  //print_vector(g.adjPos_to_edgeId_2.edge_present);
+  //cout << endl << endl;
 
-  cout << "_3: firstPos" << endl;
-  print_vector(g.nodeId_to_adjPos_3.firstPos);
-  cout << endl;
-  cout << "_3: lastPos" << endl;
-  print_vector(g.nodeId_to_adjPos_3.lastPos);
-  cout << endl;
-  cout << "_3: firstBiggerPos" << endl;
-  print_vector(g.nodeId_to_adjPos_3.firstBiggerPos);
-  cout << endl;
-  cout << "_3: node_degree" << endl;
-  print_vector(g.nodeId_to_adjPos_3.node_degree);
-  cout << endl << endl;
+  //cout << "_3: firstPos" << endl;
+  //print_vector(g.nodeId_to_adjPos_3.firstPos);
+  //cout << endl;
+  //cout << "_3: lastPos" << endl;
+  //print_vector(g.nodeId_to_adjPos_3.lastPos);
+  //cout << endl;
+  //cout << "_3: firstBiggerPos" << endl;
+  //print_vector(g.nodeId_to_adjPos_3.firstBiggerPos);
+  //cout << endl;
+  //cout << "_3: node_degree" << endl;
+  //print_vector(g.nodeId_to_adjPos_3.node_degree);
+  //cout << endl << endl;
 
-  cout << "_4: n_little" << endl;
-  print_vector(g.edgeId_to_nodeId_4.n_little);
-  cout << endl;
-  cout << "_4: n_bigger" << endl;
-  print_vector(g.edgeId_to_nodeId_4.n_bigger);
-  cout << endl;
-  cout << "_4: edge_support" << endl;
-  print_vector(g.edgeId_to_nodeId_4.support);
+  //cout << "_4: n_little" << endl;
+  //print_vector(g.edgeId_to_nodeId_4.n_little);
+  //cout << endl;
+  //cout << "_4: n_bigger" << endl;
+  //print_vector(g.edgeId_to_nodeId_4.n_bigger);
+  //cout << endl;
+  //cout << "_4: edge_support" << endl;
+  //print_vector(g.edgeId_to_nodeId_4.support);
   cout << endl << endl;
 }

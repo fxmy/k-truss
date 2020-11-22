@@ -35,6 +35,7 @@ struct EdgeId_to_nodeId_4 {
 
 struct Graph {
   uint32_t node_num = 0;
+  uint32_t node_num_max = 0; //文件中的最大node编号
   uint64_t edge_num = 0; //仅统计正向边
 
   struct Adj_list_1 adj_list_1;
@@ -50,6 +51,9 @@ void build_nodeId_to_adjPos_3(NodeId_to_adjPos_3 &, uint32_t, uint32_t,
                               const uint64_t, uint32_t &);
 void build_edgeId_to_nodeId_4(EdgeId_to_nodeId_4 &, uint32_t, uint32_t,
                               const uint64_t, uint64_t &);
+//读取完文件每一行之后，一次性更新:
+//_2.edge_present、_3.node_degree、_4.edge_support
+void post_build_graph(Graph &);
 
 void print_graph(Graph &);
 
